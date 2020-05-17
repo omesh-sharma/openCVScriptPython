@@ -155,5 +155,33 @@ for data in makeCountable:
 # draw the total number of contours found in purple
 text = "I found {} objects!".format(len(makeCountable))
 cv2.putText(resCount, text, (10, 25),  cv2.FONT_HERSHEY_SIMPLEX, 0.7,(240, 0, 159), 2)
-cv2.imshow("Contours", resCount)
+#cv2.imshow("Contours", resCount)
+cv2.waitKey(0)
+
+
+
+##***************************EROSION AND DILATIONS*********************************
+#EROSION AND DIALTION BASJICALLY USED FOR REDUCE THE NOICE IN BINARY IMAGE (A SIDE EFFECT OF THREDHOLDING)
+#THE ERODE THE SIZE OF FOREGROUND OBJECT WE ERODE AWAY THE PIXEL given a number of iteration.
+# we apply the erosion to reduce the 	size of foreground object .
+mask= thresh.copy()
+mask = cv2.erode(mask,None,iterations=5)
+#cv2.imshow("ERODED",mask)
+cv2.waitKey(0)
+
+# NOW TURN OF DILATION , IT'LL AGAIN INCRREASE OF SIZE OF FOREGROUNF OBJECT.
+maskRemove=thresh.copy()
+maskRemove=cv2.dilate(maskRemove,None,iterations=5)
+#cv2.imshow("DILATION",maskRemove)
+cv2.waitKey(0)
+
+
+#************************************** Masking and bitwise operations*********************8
+# a typical operation we may want to apply is to take our mask and
+# apply a bitwise AND to our input image, keeping only the masked
+# regions
+
+maskResetDefault = thresh.copy()
+resFound= cv2.bitwise_and(image2,image2,mask=mask)
+cv2.imshow("BItwise and",resFound)
 cv2.waitKey(0)
