@@ -114,13 +114,14 @@ import argparse
 
 
 #************************************ CONVERT THE MAGE OT THE GRAYSCALE **********************************
-grayScaleColor = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
+#USING ANOTHER IMAGE .
+image2=cv2.imread("tetris_blocks.png")
+grayScaleColor = cv2.cvtColor(image2,cv2.COLOR_BGR2GRAY)
 #cv2.imshow("GRAYSCALEIMAGE",grayScaleColor)
 cv2.waitKey(0)
 
 # applying edge detection we can find the outlines of objects in
 # images
-
 egdgeOfObject=cv2.Canny(grayScaleColor,30,150)
 #cv2.imshow("EDGE DETECTION",egdgeOfObject)
 cv2.waitKey(0)
@@ -130,10 +131,9 @@ cv2.waitKey(0)
 # (black; background), thereby segmenting the image
 #Grabbing all pixels in the gray  image greater than 225 and setting them to 0 (black) which corresponds to the background of the image
 
-thresh = cv2.threshold(grayScaleColor,255,255,cv2.THRESH_BINARY_INV)[1]
-#cv2.imshow("GET ThresholdValue",thresh)
+thresh = cv2.threshold(grayScaleColor, 225, 255, cv2.THRESH_BINARY_INV)[1]
+#cv2.imshow("Thresh", thresh)
 cv2.waitKey(0)
-
 
 
 #####******************************** DETECTED AND DRAWING CONTOUR.****************************
@@ -142,7 +142,7 @@ cv2.waitKey(0)
 
 makeCountable=cv2.findContours(thresh.copy(),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
 makeCountable=imutils.grab_contours(makeCountable)
-resCount=image.copy()
+resCount=image2.copy()
 
 #For Loop Over The Contours
 for data in makeCountable:
